@@ -1,0 +1,49 @@
+{% extends "cotizaciones/base.html" %}
+{% block title %}Nueva{% endblock %}
+{% block content %}
+<div class="card">
+  <h3 style="margin-top:0;">Nueva cotización</h3>
+  <form method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div style="flex:1;min-width:260px;"><label>Cliente</label>{{ form.cliente }}</div>
+      <div style="flex:1;min-width:260px;"><label>Fecha</label>{{ form.fecha }}</div>
+    </div>
+    <div class="row">
+      <div style="flex:1;min-width:260px;"><label>Proyecto</label>{{ form.nombre_proyecto }}</div>
+      <div style="flex:1;min-width:260px;"><label>Tipo de obra</label>{{ form.tipo_obra }}</div>
+      <div style="flex:1;min-width:260px;"><label>Ubicación</label>{{ form.ubicacion }}</div>
+    </div>
+    <div style="margin-top:10px;"><label>Notas</label>{{ form.notas }}</div>
+
+    <hr style="margin:18px 0;border:none;border-top:1px solid #e5e7eb;">
+    <h4>Detalles</h4>
+    {{ formset.management_form }}
+    <table>
+      <thead>
+        <tr><th>Descripción</th><th>Categoría</th><th>Unidad</th><th>Cantidad</th><th>Precio</th><th>Eliminar</th></tr>
+
+      </thead>
+      <tbody>
+        {% for f in formset %}
+        <tr>
+          {{ f.id }}
+          <td>{{ f.descripcion }}</td>
+          <td>{{ f.categoria }}</td>
+          <td>{{ f.unidad_pago }}</td>
+          <td>{{ f.cantidad }}</td>
+          <td>{{ f.precio_unitario }}</td>
+
+          <td>{% if f.instance.pk %}{{ f.DELETE }}{% else %}-{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="row" style="margin-top:14px;">
+      <button class="btn" type="submit">Guardar</button>
+      <a class="btn secondary" href="/cotizaciones/">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

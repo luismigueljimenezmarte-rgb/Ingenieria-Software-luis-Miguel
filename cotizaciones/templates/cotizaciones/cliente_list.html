@@ -1,0 +1,20 @@
+{% extends "cotizaciones/base.html" %}
+{% block title %}Clientes{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="row" style="justify-content:space-between;align-items:center;">
+    <h3 style="margin:0;">Clientes</h3>
+    <a class="btn" href="{% url 'cotizaciones:cliente_create' %}">Nuevo cliente</a>
+  </div>
+  <table style="margin-top:12px;">
+    <thead><tr><th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Dirección</th></tr></thead>
+    <tbody>
+      {% for c in clientes %}
+      <tr><td>{{ c.nombre }}</td><td>{{ c.telefono }}</td><td>{{ c.correo }}</td><td>{{ c.direccion }}</td></tr>
+      {% empty %}
+      <tr><td colspan="4" class="muted">No hay clientes.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

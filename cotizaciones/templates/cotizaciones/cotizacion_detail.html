@@ -1,0 +1,67 @@
+{% extends "cotizaciones/base.html" %}
+{% load money %}
+{% block title %}Detalle{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h3 style="margin-top:0;">Cotización #{{ cotizacion.id }}</h3>
+  <a class="btn" href="{% url 'cotizaciones:cotizacion_edit' cotizacion.id %}">Editar / Agregar detalles</a>
+  <a class="btn secondary" href="{% url 'cotizaciones:cotizacion_print' cotizacion.id %}">Imprimir</a>
+  <a class="btn secondary" href="{% url 'cotizaciones:cotizacion_pdf' cotizacion.id %}">Descargar PDF</a>
+
+
+  <div class="row" style="margin-top:12px;">
+    <div style="flex:1;min-width:260px;">
+      <b>Cliente:</b> {{ cotizacion.cliente.nombre }}<br>
+      <span class="muted">{{ cotizacion.cliente.telefono }} • {{ cotizacion.cliente.correo }}</span><br>
+      <span class="muted">{{ cotizacion.cliente.direccion }}</span>
+    </div>
+
+    <div style="flex:1;min-width:260px;">
+      <b>Proyecto:</b> {{ cotizacion.nombre_proyecto }}<br>
+      <span class="muted">{{ cotizacion.tipo_obra }} • {{ cotizacion.ubicacion }}</span><br>
+      <b>Fecha:</b> {{ cotizacion.fecha }}
+    </div>
+
+    <div style="flex:1;min-width:260px;">
+      <div style="font-size:18px;">
+        <b>Total:</b> {{ cotizacion.total|rd }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h4 style="margin-top:0;">Detalles</h4>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Descripción</th>
+        <th>Categoría</th>
+        <th>Unidad</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for d in detalles %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ d.descripcion }}</td>
+        <td>{{ d.get_categoria_display }}</td>
+        <td>{{ d.get_unidad_pago_display }}</td>
+        <td>{{ d.cantidad }}</td>
+        <td>{{ d.precio_unitario|rd }}</td>
+        <td>{{ d.subtotal|rd }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" class="muted">No hay detalles.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

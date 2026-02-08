@@ -1,0 +1,91 @@
+{% load money %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cotización #{{ cotizacion.id }}</title>
+  <style>
+    body{font-family:Arial, sans-serif; margin:24px; color:#111;}
+    .top{display:flex; justify-content:space-between; align-items:flex-start; gap:20px;}
+    .box{border:1px solid #ddd; padding:12px; border-radius:10px;}
+    h2{margin:0 0 6px 0;}
+    table{width:100%; border-collapse:collapse; margin-top:14px;}
+    th,td{border-bottom:1px solid #eee; padding:8px; text-align:left; font-size:13px;}
+    .right{text-align:right;}
+    .muted{color:#666;}
+    .actions{margin-bottom:14px; display:flex; gap:10px;}
+    .btn{padding:10px 14px; border-radius:10px; border:1px solid #111; background:#111; color:#fff; cursor:pointer; text-decoration:none;}
+    .btn.secondary{background:#fff; color:#111;}
+    @media print{
+      .actions{display:none;}
+      body{margin:0;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="actions">
+  <button class="btn" onclick="window.print()">Imprimir</button>
+  <a class="btn secondary" href="{% url 'cotizaciones:cotizacion_detail' cotizacion.id %}">Volver</a>
+</div>
+
+<div class="top">
+  <div class="box" style="flex:1;">
+    <h2>Cotización #{{ cotizacion.id }}</h2>
+    <div class="muted">Fecha: {{ cotizacion.fecha }}</div>
+    <div style="margin-top:10px;">
+      <b>Proyecto:</b> {{ cotizacion.nombre_proyecto }}<br>
+      <span class="muted">{{ cotizacion.tipo_obra }} • {{ cotizacion.ubicacion }}</span>
+    </div>
+  </div>
+
+  <div class="box" style="flex:1;">
+    <b>Cliente:</b> {{ cotizacion.cliente.nombre }}<br>
+    <span class="muted">{{ cotizacion.cliente.telefono }} • {{ cotizacion.cliente.correo }}</span><br>
+    <span class="muted">{{ cotizacion.cliente.direccion }}</span>
+  </div>
+
+  <div class="box" style="width:220px;">
+    <div style="font-size:16px;"><b>Total:</b></div>
+    <div style="font-size:20px; margin-top:6px;"><b>{{ cotizacion.total|rd }}</b></div>
+  </div>
+</div>
+
+{% if cotizacion.notas %}
+  <div class="box" style="margin-top:14px;">
+    <b>Notas:</b> {{ cotizacion.notas }}
+  </div>
+{% endif %}
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Descripción</th>
+      <th>Categoría</th>
+      <th>Unidad</th>
+      <th class="right">Cantidad</th>
+      <th class="right">Precio</th>
+      <th class="right">Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for d in detalles %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ d.descripcion }}</td>
+      <td>{{ d.get_categoria_display }}</td>
+      <td>{{ d.get_unidad_pago_display }}</td>
+      <td class="right">{{ d.cantidad }}</td>
+      <td class="right">{{ d.precio_unitario|rd }}</td>
+      <td class="right">{{ d.subtotal|rd }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7" class="muted">No hay detalles.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+</body>
+</html>

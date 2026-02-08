@@ -1,0 +1,26 @@
+{% extends "cotizaciones/base.html" %}
+{% block title %}Cotizaciones{% endblock %}
+{% block content %}
+<div class="card">
+  <h3 style="margin-top:0;">Cotizaciones</h3>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Cliente</th><th>Proyecto</th><th>Fecha</th><th>Total</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for c in cotizaciones %}
+      <tr>
+        <td>#{{ c.id }}</td>
+        <td>{{ c.cliente.nombre }}</td>
+        <td>{{ c.nombre_proyecto }}</td>
+        <td>{{ c.fecha }}</td>
+        <td>{{ c.total }}</td>
+        <td><a href="{% url 'cotizaciones:cotizacion_detail' c.id %}">Ver</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" class="muted">No hay cotizaciones.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

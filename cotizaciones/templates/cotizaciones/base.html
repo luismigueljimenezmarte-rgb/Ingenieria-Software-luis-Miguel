@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{% block title %}Cotizaciones{% endblock %}</title>
+  <style>
+    body{font-family:system-ui,Arial;margin:24px;background:#f6f7fb;}
+    .wrap{max-width:1000px;margin:auto;}
+    .card{background:white;padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.06);margin-bottom:16px;}
+    a{color:#1b5cff;text-decoration:none;}
+    .row{display:flex;gap:12px;flex-wrap:wrap;}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:#1b5cff;color:white;}
+    .btn.secondary{background:#111827;}
+    table{width:100%;border-collapse:collapse;}
+    th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left;}
+    input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #d1d5db;}
+    .muted{color:#6b7280;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="row" style="justify-content:space-between;align-items:center;">
+      <div>
+        <h2 style="margin:0;">Módulo de Cotizaciones</h2>
+        <div class="muted">Materiales • Mano de obra • Total automático</div>
+      </div>
+      <div class="row">
+        <a class="btn secondary" href="/cotizaciones/clientes/">Clientes</a>
+        <a class="btn" href="/cotizaciones/nueva/">Nueva</a>
+        <a class="btn secondary" href="/cotizaciones/">Listado</a>
+      </div>
+    </div>
+  </div>
+  {% block content %}{% endblock %}
+</div>
+</body>
+</html>

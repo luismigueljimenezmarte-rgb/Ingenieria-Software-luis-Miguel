@@ -1,0 +1,22 @@
+{% extends "cotizaciones/base.html" %}
+{% block title %}Nuevo cliente{% endblock %}
+{% block content %}
+<div class="card">
+  <h3 style="margin-top:0;">Nuevo cliente</h3>
+  <form method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div style="flex:1;min-width:260px;"><label>Nombre</label>{{ form.nombre }}</div>
+      <div style="flex:1;min-width:260px;"><label>Teléfono</label>{{ form.telefono }}</div>
+    </div>
+    <div class="row">
+      <div style="flex:1;min-width:260px;"><label>Correo</label>{{ form.correo }}</div>
+      <div style="flex:1;min-width:260px;"><label>Dirección</label>{{ form.direccion }}</div>
+    </div>
+    <div class="row" style="margin-top:14px;">
+      <button class="btn" type="submit">Guardar</button>
+      <a class="btn secondary" href="{% url 'cotizaciones:cliente_list' %}">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
