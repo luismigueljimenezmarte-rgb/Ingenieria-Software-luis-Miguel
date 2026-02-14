@@ -1,0 +1,61 @@
+{% extends "cotizaciones/base.html" %}
+{% load money %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h3 style="margin-top:0;">Dashboard</h3>
+  <div class="row">
+    <div class="card" style="flex:1; min-width:220px;">
+      <div class="muted">Cotizaciones</div>
+      <div style="font-size:28px;"><b>{{ total_cotizaciones }}</b></div>
+    </div>
+
+    <div class="card" style="flex:1; min-width:220px;">
+      <div class="muted">Clientes</div>
+      <div style="font-size:28px;"><b>{{ total_clientes }}</b></div>
+    </div>
+
+    <div class="card" style="flex:1; min-width:220px;">
+      <div class="muted">Total cotizado</div>
+      <div style="font-size:28px;"><b>{{ suma_totales|rd }}</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="row" style="justify-content:space-between; align-items:center;">
+    <h4 style="margin:0;">Accesos rápidos</h4>
+    <div class="row">
+      <a class="btn" href="{% url 'cotizaciones:cotizacion_create' %}">Nueva cotización</a>
+      <a class="btn secondary" href="{% url 'cotizaciones:cliente_list' %}">Clientes</a>
+      <a class="btn secondary" href="{% url 'cotizaciones:cotizacion_list' %}">Listado</a>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h4 style="margin-top:0;">Últimas cotizaciones</h4>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>Cliente</th><th>Proyecto</th><th>Fecha</th><th>Total</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in ultimas %}
+      <tr>
+        <td>#{{ c.id }}</td>
+        <td>{{ c.cliente.nombre }}</td>
+        <td>{{ c.nombre_proyecto }}</td>
+        <td>{{ c.fecha }}</td>
+        <td>{{ c.total|rd }}</td>
+        <td><a href="{% url 'cotizaciones:cotizacion_detail' c.id %}">Ver</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" class="muted">No hay cotizaciones todavía.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

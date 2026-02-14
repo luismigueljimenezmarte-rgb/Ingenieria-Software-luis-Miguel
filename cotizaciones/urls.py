@@ -12,5 +12,7 @@ urlpatterns = [
     path("<int:pk>/editar/", views.cotizacion_edit, name="cotizacion_edit"),
     path("<int:pk>/imprimir/", views.cotizacion_print, name="cotizacion_print"),
     path("<int:pk>/pdf/", views.cotizacion_pdf, name="cotizacion_pdf"),
+    path("dashboard/", views.dashboard, name="dashboard"),
+
 
 ]

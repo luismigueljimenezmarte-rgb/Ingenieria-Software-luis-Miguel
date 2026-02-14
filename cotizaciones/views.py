@@ -4,6 +4,8 @@ from .models import Cliente, Cotizacion
 from .forms import ClienteForm, CotizacionForm, DetalleFormSet
 from django.http import HttpResponse
 from decimal import Decimal
+from django.db.models import Sum
+
 
 
 
@@ -83,6 +85,25 @@ def cotizacion_print(request, pk):
         "cotizaciones/cotizacion_print.html",
         {"cotizacion": cotizacion, "detalles": detalles},
     )
+def dashboard(request):
+        total_cotizaciones = Cotizacion.objects.count()
+        total_clientes = Cliente.objects.count()
+
+        suma_totales = Cotizacion.objects.aggregate(s=Sum("total"))["s"] or 0
+
+        ultimas = Cotizacion.objects.select_related("cliente").order_by("-id")[:5]
+
+        return render(
+            request,
+            "cotizaciones/dashboard.html",
+            {
+                "total_cotizaciones": total_cotizaciones,
+                "total_clientes": total_clientes,
+                "suma_totales": suma_totales,
+                "ultimas": ultimas,
+            },
+        )
+    
 
 
 def cotizacion_pdf(request, pk):
@@ -183,3 +204,4 @@ def cotizacion_pdf(request, pk):
     response.write(pdf)
     return response
 
+    
